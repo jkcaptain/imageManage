@@ -17,16 +17,15 @@ h5上传图片，当图片过大时，会出现上传需要很长时间，用户
 
 参照项目中的 imageManageTest.html
 
-compressImg函数有两个参数，img代表图像源，options代表处理信息，详细如下：
+compressImg函数有两个参数，img代表图像源，options代表处理信息，有两个参数 orientation 和 quality。
+参数 orientation 代表图像的旋转度，为了解决部分ios手机图像旋转的bug。具体数值需要借用 exif-js 获取。默认值为 0
+参数 quality 代表图像的压缩比，取值范围为 0-1。默认值为 0.3
 
-    compressImg(img, {
-        //图像的旋转度，为了解决部分ios手机图像旋转的bug。具体数值需要借用 exif-js 获取。默认值为 0
-        orientation: Number,
-        // 压缩比，取值范围为 0-1。默认值为 0.3
-        quality：Number    
-    })
-
-
+    compressImg(img, {    
+        orientation: 6,        
+        quality：0.5    
+    });
+   
 注意：
 
 ios拍照上传，可能会出现照片旋转的情况，此时需要借助 exif-js 获取图像的orientation，用来矫正图像旋转。
