@@ -17,6 +17,10 @@ h5上传图片，当图片过大时，会出现上传需要很长时间，用户
 
 参照项目中的 imageManageTest.html
 
+注意：
+
+ios拍照上传，可能会出现照片旋转的情况，此时需要借助 exif-js 获取图像的orientation，用来矫正图像旋转。
+
 参考资料：
 
 https://github.com/stomita/ios-imagefile-megapixel/blob/master/src/megapix-image.js
