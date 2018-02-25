@@ -76,8 +76,8 @@
         var orientation = 0,
             quality = 0.3;
         options = options || {};
-        (orientation = options.orientation || orientation),
-            (quality = options.quality || quality);
+        orientation = options.orientation || orientation;
+        quality = options.quality || quality;
 
         //ios 中canvas的大小有限制，如果canvas的大小大于大概五百万像素（即宽高乘积）的时候，不仅图片画不出来，其他什么东西也都是画不出来的
         //我们这里把最大像素值设置为400万
