@@ -1,75 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>图片压缩</title>
+    <meta charset="UTF-8">
+    <title>图片压缩</title>
 </head>
+
 <body>
-	<input type="file" accept="image/*" id="file-btn">
+    <input type="file" accept="image/*" id="file-btn">
 
-	<!--引入 compressImg , dataURLtoBlob-->
-	<script src="./imageManage.js"></script>
+    <!--引入 compressImg , dataURLtoBlob-->
+    <script src="./imageManage.js"></script>
 
-	<script>
-		var fileBtn = document.getElementById('file-btn');
+    <script>
+        var fileBtn = document.getElementById('file-btn');
 
-		fileBtn.addEventListener('change', changeImage, false);
+        fileBtn.addEventListener('change', changeImage, false);
 
-		function changeImage(e){
-			var file = e.target.files[0],
-				formData = new FormData();					
-			
-			if(!file){
-				return;
-			}
+        function changeImage(e) {
+            var file = e.target.files[0],
+                formData = new FormData();
 
-			var quality = 0.5;
-			//如果是移动端且需要拍照，用 exif-js 获取图片的 orientation
-			var orientation = 0;			
-			// EXIF.getData(file, function(){
-			// 	EXIF.getAllTags(this);
-			// 	orientation = EXIF.getTag(this, 'Orientation');
-			// })
+            if (!file) {
+                return;
+            }
 
-			//小于某个size，直接上传
-			//if(file.size < maxSize){
-			//    formData.append('imagefile', file);
-			//    upload()	
-			//}
+            var quality = 0.5;
+            //如果是移动端且需要拍照，用 exif-js 获取图片的 orientation
+            var orientation = 0;
+            // EXIF.getData(file, function(){
+            // 	EXIF.getAllTags(this);
+            // 	orientation = EXIF.getTag(this, 'Orientation');
+            // })
 
-			var reader = new FileReader();
-			reader.onload = function(e){
-				var img = new Image(),
-					result = e.target.result;
-				img.addEventListener('load', callback, false);
-				img.src = result;
-				function callback(e){
-					var dataURI = compressImg(img, {   //压缩图片
-						orientation : orientation,     //之前获取到的 orientation, compressImg的缺省值 0
-						quality : quality              //图片压缩质量, 0~1 之间, compressImg的缺省值 0.3
-					});
-					var blob = dataURLtoBlob(dataURI);  //将base64转为Blob
-					formData.append('imagefile', blob, file.name);
-					img = null;
-					//upload()					
+            //小于某个size，直接上传
+            //if(file.size < maxSize){
+            //    formData.append('imagefile', file);
+            //    upload()	
+            //}
 
-					//测试函数, 将压缩后的图片显示出来
-					appendImg(result, dataURI);					
-				}
-			};
-			reader.readAsDataURL(file);
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = new Image(),
+                    result = e.target.result;
+                img.addEventListener('load', callback, false);
+                img.src = result;
+                function callback(e) {
+                    var dataURI = compressImg(img, {   //压缩图片
+                        orientation: orientation,     //之前获取到的 orientation, compressImg的缺省值 0
+                        quality: quality              //图片压缩质量, 0~1 之间, compressImg的缺省值 0.3
+                    });
+                    var blob = dataURLtoBlob(dataURI);  //将base64转为Blob
+                    formData.append('imagefile', blob, file.name);
+                    img = null;
+                    //upload()					
 
-		}
+                    //测试函数, 将压缩后的图片显示出来
+                    appendImg(result, dataURI);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
 
-		function appendImg(beforeSrc, afterSrc){
-			var img = new Image(); 
-			img.src = afterSrc;
-			document.body.appendChild(img);
-			img = null;
-			console.log('大概数据');
-			console.log('压缩前约: ' + beforeSrc.length / (1024 * 1024) +  ' MB');
-			console.log('压缩后约: ' + afterSrc.length / (1024 * 1024) +  ' MB');
-		}
-	</script>
+        function appendImg(beforeSrc, afterSrc) {
+            var img = new Image();
+            img.src = afterSrc;
+            document.body.appendChild(img);
+            img = null;
+            console.log('大概数据');
+            console.log('压缩前约: ' + beforeSrc.length / (1024 * 1024) + ' MB');
+            console.log('压缩后约: ' + afterSrc.length / (1024 * 1024) + ' MB');
+        }
+    </script>
 </body>
+
 </html>
